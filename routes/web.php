@@ -49,4 +49,7 @@ Route::prefix('admin')->middleware('auth')->group(function (): void {
     Route::post('/emergency-contacts', [EmergencyContactController::class, 'store'])->name('emergency-contacts.store');
     Route::put('/emergency-contacts/{contact}', [EmergencyContactController::class, 'update'])->name('emergency-contacts.update');
     Route::delete('/emergency-contacts/{contact}', [EmergencyContactController::class, 'destroy'])->name('emergency-contacts.destroy');
+
+    // Admin Account Password Update
+    Route::put('/password', [AuthController::class, 'updatePassword'])->name('admin.password.update');
 });

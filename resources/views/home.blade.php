@@ -52,7 +52,6 @@
                 <div class="rounded-2xl border border-slate-200 bg-slate-50/70 p-4 sm:p-5">
                     <div class="text-xs font-bold uppercase tracking-wider text-slate-500">Total Laporan Warga Masuk</div>
                     <div class="text-xl sm:text-2xl font-extrabold text-slate-900 mt-1">{{ $reports->count() }} Laporan</div>
-                    <div class="text-xs text-slate-500 mt-1.5">Foto otomatis dikompresi via Intervention Image</div>
                 </div>
 
                 <div class="rounded-2xl border border-slate-200 bg-slate-50/70 p-4 sm:p-5">
@@ -169,7 +168,7 @@
                                required
                                class="block w-full text-xs text-slate-600 file:mr-3 file:py-2 file:px-3.5 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-slate-900 file:text-white hover:file:bg-slate-800 border border-slate-300 rounded-xl p-1.5">
                         <p class="text-[11px] text-slate-500 mt-1">
-                            Format JPG, PNG, atau WEBP (maks. 10MB). Foto otomatis dikompresi menggunakan <strong>Intervention Image</strong>.
+                            Format JPG, PNG, atau WEBP (maks. 10MB)
                         </p>
                     </div>
 

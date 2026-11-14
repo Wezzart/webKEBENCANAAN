@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 
 class AuthController extends Controller
@@ -58,6 +59,31 @@ class AuthController extends Controller
 
         return redirect()->route('login')
             ->with('success', 'Anda telah berhasil keluar (logout).');
+    }
+
+    /**
+     * Update the authenticated admin's password.
+     */
+    public function updatePassword(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'current_password' => ['required', 'current_password'],
+            'password' => ['required', 'string', 'min:4', 'confirmed'],
+        ], [
+            'current_password.required' => 'Password saat ini wajib diisi.',
+            'current_password.current_password' => 'Password saat ini tidak sesuai.',
+            'password.required' => 'Password baru wajib diisi.',
+            'password.min' => 'Password baru minimal terdiri dari 4 karakter.',
+            'password.confirmed' => 'Konfirmasi password baru tidak cocok.',
+        ]);
+
+        $request->user()->update([
+            'password' => Hash::make($validated['password']),
+        ]);
+
+        return redirect()
+            ->route('admin.dashboard')
+            ->with('success', 'Password akun admin berhasil diperbarui.');
     }
 }
 

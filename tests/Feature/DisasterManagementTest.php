@@ -202,3 +202,41 @@ test('admin can perform CRUD on emergency contacts and reflects in footer', func
 
     expect(\App\Models\EmergencyContact::query()->find($contact->id))->toBeNull();
 });
+
+test('admin can update password with valid current password', function (): void {
+    $admin = User::query()->create([
+        'name' => 'Admin Test',
+        'username' => 'admin',
+        'email' => 'admin@test.com',
+        'password' => Hash::make('admin'),
+    ]);
+
+    $response = $this->actingAs($admin)->put(route('admin.password.update'), [
+        'current_password' => 'admin',
+        'password' => 'rahasia123',
+        'password_confirmation' => 'rahasia123',
+    ]);
+
+    $response->assertRedirect(route('admin.dashboard'))
+        ->assertSessionHas('success');
+
+    expect(Hash::check('rahasia123', $admin->fresh()->password))->toBeTrue();
+});
+
+test('admin password update fails when current password is incorrect', function (): void {
+    $admin = User::query()->create([
+        'name' => 'Admin Test',
+        'username' => 'admin',
+        'email' => 'admin@test.com',
+        'password' => Hash::make('admin'),
+    ]);
+
+    $response = $this->actingAs($admin)->put(route('admin.password.update'), [
+        'current_password' => 'salah',
+        'password' => 'rahasia123',
+        'password_confirmation' => 'rahasia123',
+    ]);
+
+    $response->assertSessionHasErrors('current_password');
+    expect(Hash::check('admin', $admin->fresh()->password))->toBeTrue();
+});
